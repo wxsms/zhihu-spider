@@ -38,4 +38,4 @@ jspm_packages
 
 .idea/
 
-src/config/local.js
+src/config/zhihu.js

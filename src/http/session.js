@@ -5,10 +5,8 @@ const superagent = require('superagent');
 const fs = require('fs');
 const captchaPath = 'captcha.png';
 const chalk = require('chalk');
-const url = {
-  loginWithPhoneNum: () => 'http://www.zhihu.com/login/phone_num',
-  captcha: () => 'https://www.zhihu.com/captcha.gif?type=login&r=' + new Date().getTime()
-};
+const constants = require('./../constants/zhihu');
+const util = require('./../utils/commonUtil');
 let user = {};
 let httpHeader = {
   'User-Agent': 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.116 Safari/537.36',
@@ -18,17 +16,15 @@ let httpHeader = {
 function getCaptcha() {
   return new Promise((resolve, reject) => {
     superagent
-      .get(url.captcha())
+      .get(constants.url.captcha())
       .set(httpHeader)
-      .end(function (err, res) {
+      .end((err, res) => {
         if (err) {
-          console.error(err);
-          reject(err);
+          util.logErrorAndResolve(reject, err);
         } else {
-          fs.writeFile(captchaPath, res.body, 'binary', function (error) {
+          fs.writeFile(captchaPath, res.body, 'binary', (error) => {
             if (error) {
-              console.error(error);
-              reject(error);
+              util.logErrorAndResolve(reject, error);
             } else {
               Object.assign(httpHeader, {
                 Cookie: res.headers["set-cookie"]
@@ -62,20 +58,19 @@ function resolveCaptcha() {
 function getLoginCookie() {
   return new Promise((resolve, reject) => {
     superagent
-      .post(url.loginWithPhoneNum())
+      .post(constants.url.loginWithPhoneNum())
       .set(httpHeader)
       .send(user)
       .redirects(0)
-      .end(function (err, res) {
+      .end((err, res) => {
         if (err) {
-          console.error(err);
-          reject(err);
+          util.logErrorAndResolve(reject, err);
         } else {
           if (res.body && res.body.msg === '登录成功') {
             httpHeader.Cookie = res.headers["set-cookie"];
             resolve();
           } else {
-            reject(res.body.msg);
+            util.logErrorAndResolve(reject, res.body.msg);
           }
         }
       });
@@ -88,16 +83,20 @@ function login(_user) {
     getCaptcha()
       .then(resolveCaptcha)
       .then(getLoginCookie)
-      .then(function () {
+      .then(() => {
         console.log(chalk.green.bold('Login success!'));
         resolve();
       })
-      .catch(function (err) {
+      .catch((err) => {
         console.log(chalk.red.bold('Login failed:', err));
         reject();
       })
   })
 }
 
+function getHttpHeader() {
+  return httpHeader;
+}
 
+exports.getHttpHeader = getHttpHeader;
 exports.login = login;
