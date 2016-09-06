@@ -3,7 +3,7 @@
 const constants = require('./../constants/zhihu');
 const util = require('./../utils/commonUtil');
 const superagent = require('superagent');
-const parser = require('./../parsers/userParser');
+const parser = require('./../parsers/user/index');
 
 let session = {};
 
@@ -29,8 +29,6 @@ function resolveUser(userName) {
       });
   });
 }
-
-//resolveUser('wxsm');
 
 exports.setSession = setSession;
 exports.resolveUser = resolveUser;
