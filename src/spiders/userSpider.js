@@ -1,7 +1,6 @@
 'use strict';
 
 const constants = require('./../constants/zhihu');
-const util = require('./../utils/commonUtil');
 const superagent = require('superagent');
 const parser = require('./../parsers/user/index');
 
@@ -18,7 +17,7 @@ function resolveUser(userName) {
       .set(session.getHttpHeader())
       .end((err, res) => {
         if (err) {
-          util.logErrorAndResolve(reject, err);
+          reject(err);
         } else {
           parser
             .fromHtml(res.text)
@@ -30,5 +29,4 @@ function resolveUser(userName) {
   });
 }
 
-exports.setSession = setSession;
-exports.resolveUser = resolveUser;
+module.exports = { setSession, resolveUser };

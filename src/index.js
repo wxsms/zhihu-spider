@@ -1,26 +1,20 @@
 'use strict';
 
-const session = require('./http/session');
-const spider = require('./spiders/userSpider');
-const config = require('./config/zhihu');
+const db = require('./utils/dbUtil');
+const userService = require('./services/userService');
 
-let user = config.user;
 
-session
-  .login(user)
+db.connect();
+
+userService
+  .login()
+  .then(userService.resolveAndSave)
   .then(() => {
-    spider.setSession(session);
-    spider
-      .resolveUser(config.userSpider.seed)
-      .then((user) => {
-        console.log(user);
-        process.exit(1);
-      })
-      .catch(() => {
-        process.exit(0);
-      });
-    //process.exit(1);
-  })
-  .catch(() => {
     process.exit(0);
+  })
+  .catch((err) => {
+    if (err) {
+      console.error(err);
+    }
+    process.exit(1);
   });

@@ -38,5 +38,5 @@ jspm_packages
 
 .idea/
 
-src/config/zhihu.js
+src/config/config.js
 captcha.png

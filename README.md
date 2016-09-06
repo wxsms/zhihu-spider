@@ -2,7 +2,7 @@
 
 todo: 
 
-1. Read `src/config/zhihu.example.js`
+1. Read `src/config/config.example.js`
 2. Install dependencies by `npm install`
 3. Run `index.js`
 

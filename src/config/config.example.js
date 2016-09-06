@@ -8,5 +8,8 @@ module.exports = {
   },
   userSpider: {
     seed: 'wxsm'
+  },
+  db: {
+    path: 'mongodb://localhost/zhihu-spider'
   }
 };
