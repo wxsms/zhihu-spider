@@ -2,8 +2,10 @@
 
 const parser = require('./../index');
 
-exports.fromHtml = function (html) {
-  return parser.fromHtml(html, [
-
+function fromJson(jsonText) {
+  return parser.fromJson(jsonText, [
+    require('./nameParser')
   ])
-};
+}
+
+module.exports = { fromJson };

@@ -3,7 +3,7 @@
 let mongoose = require('mongoose');
 
 let UserSchema = new mongoose.Schema({
-  name: {
+  id: {
     type: String,
     index: { unique: true }
   },
@@ -11,6 +11,7 @@ let UserSchema = new mongoose.Schema({
     type: String,
     index: { unique: true }
   },
+  name: String,
   bio: String,
   gender: String,
   description: String,
@@ -26,10 +27,8 @@ let UserSchema = new mongoose.Schema({
     education: String,
     major: String
   },
-  follow: {
-    followees: Number,
-    follower: Number
-  },
+  followees: [String],
+  followers: [String],
   activities: {
     asks: Number,
     answers: Number,

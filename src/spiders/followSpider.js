@@ -1,8 +1,9 @@
 'use strict';
 
 const constants = require('./../constants/zhihu');
-const superagent = require('superagent');
+const superagent = require('superagent-promise')(require('superagent'), Promise);
 const parser = require('./../parsers/follow/index');
+const _ = require('lodash');
 
 let session = {};
 
@@ -10,34 +11,62 @@ function setSession(_session) {
   session = _session;
 }
 
-function resolveFollowers(user) {
+function resolveByPage(user, offset, apiObj) {
+  let header = Object.assign(session.getHttpHeader(), apiObj.header(user.id, session.getXsrfToken()));
+  let form = apiObj.form(user.hashId, offset);
+  return superagent
+    .post(apiObj.url())
+    .set(header)
+    .send(form)
+    .end()
+    .then((res) => {
+      let data = parser.fromJson(res.text);
+      if (!data.list.length) {
+        return [];
+      }
+      return resolveByPage(user, offset + apiObj.pageSize(), apiObj)
+        .then(function (nextList) {
+          return [].concat(data.list, nextList);
+        });
+    })
+}
+
+function resolveFollowers(user, offset) {
+  console.log('Resolving user followers...');
+  if (typeof offset === 'undefined' || offset < 0) {
+    offset = 0;
+  }
   return new Promise((resolve, reject) => {
-    let header = Object.assign(session.getHttpHeader(), {
-      'X-Xsrftoken': session.getXsrfToken(),
-      'X-Requested-With': 'XMLHttpRequest',
-      'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-      Referer: constants.url.userFollowers(user.name)
-    });
-
-    let form = {
-      method: 'next',
-      params: `{"offset":0,"order_by":"created","hash_id":"${user.hashId}"}`
-    };
-
-    superagent
-      .post('https://www.zhihu.com/node/ProfileFollowersListV2')
-      .set(header)
-      .send(form)
-      .end((err, res) => {
-        if (err) {
-          reject(err);
-        } else {
-          console.log('success!!!');
-          console.log(res.body);
-          resolve(user);
-        }
-      });
+    resolveByPage(user, offset, constants.api.userFollowers)
+      .then((followersList) => {
+        let _user = {
+          followers: _.uniq(followersList)
+        };
+        resolve(Object.assign(user, _user));
+      })
+      .catch((err) => {
+        reject(err);
+      })
   });
 }
 
-module.exports = { setSession, resolveFollowers };
+function resolveFollowees(user, offset) {
+  console.log('Resolving user followees...');
+  if (typeof offset === 'undefined' || offset < 0) {
+    offset = 0;
+  }
+  return new Promise((resolve, reject) => {
+    resolveByPage(user, offset, constants.api.userFollowees)
+      .then((followersList) => {
+        let _user = {
+          followees: _.uniq(followersList)
+        };
+        resolve(Object.assign(user, _user));
+      })
+      .catch((err) => {
+        reject(err);
+      })
+  });
+}
+
+module.exports = { setSession, resolveFollowers, resolveFollowees };

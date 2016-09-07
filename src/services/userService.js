@@ -2,13 +2,15 @@
 
 const chalk = require('chalk');
 const session = require('./../http/session');
-const spider = require('./../spiders/userSpider');
+const userSpider = require('./../spiders/userSpider');
+const followSpider = require('./../spiders/followSpider');
 const config = require('./../config/config');
 const mongoose = require('mongoose');
 
 
 let User = mongoose.model('User');
-spider.setSession(session);
+userSpider.setSession(session);
+followSpider.setSession(session);
 
 function login() {
   return session.login(config.user)
@@ -22,10 +24,14 @@ function resolve(userName) {
   if (typeof userName === 'undefined') {
     userName = config.user.name;
   }
-  return spider.resolveUser(userName);
+  return userSpider
+    .resolveUser(userName)
+    .then(followSpider.resolveFollowers)
+    .then(followSpider.resolveFollowees);
 }
 
 function save(user) {
+  console.log('Saving user...');
   return new User(user).save();
 }
 

@@ -12,6 +12,8 @@ function setSession(_session) {
 
 function resolveUser(userName) {
   return new Promise((resolve, reject) => {
+    console.log(`----------`);
+    console.log(`Resolving user ${userName}...`);
     superagent
       .get(constants.url.userProfile(userName))
       .set(session.getHttpHeader())
@@ -22,6 +24,7 @@ function resolveUser(userName) {
           parser
             .fromHtml(res.text)
             .then((user) => {
+              user.id = userName;
               resolve(user);
             });
         }

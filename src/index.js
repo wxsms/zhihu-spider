@@ -2,16 +2,13 @@
 
 const db = require('./utils/dbUtil');
 const userService = require('./services/userService');
-const spider = require('./spiders/followSpider');
 
 db.connect();
 
 userService
   .login()
-  .then(userService.resolve)
-  .then((user) => {
-    spider.setSession(userService.getSession());
-    return spider.resolveFollowers(user);
+  .then(() => {
+    return userService.resolve('kenspirit');
   })
   .then(userService.save)
   .then(() => {
