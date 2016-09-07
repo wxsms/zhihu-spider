@@ -9,7 +9,7 @@
 ### Run test:
 
 1. run `npm install mocha`
-2. run 'npm run test'
+2. run `npm run test`
 
 ### note:
 
