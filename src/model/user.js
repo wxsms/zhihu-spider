@@ -7,6 +7,10 @@ let UserSchema = new mongoose.Schema({
     type: String,
     index: { unique: true }
   },
+  hashId: {
+    type: String,
+    index: { unique: true }
+  },
   bio: String,
   gender: String,
   description: String,

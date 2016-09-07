@@ -8,6 +8,7 @@ exports.fromHtml = function (html) {
     require('./detailParser'),
     require('./followParser'),
     require('./activitiesParser'),
-    require('./awardParser')
+    require('./awardParser'),
+    require('./hashIdParser')
   ])
 };

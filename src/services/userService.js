@@ -14,7 +14,14 @@ function login() {
   return session.login(config.user)
 }
 
+function getSession() {
+  return session;
+}
+
 function resolve(userName) {
+  if (typeof userName === 'undefined') {
+    userName = config.user.name;
+  }
   return spider.resolveUser(userName);
 }
 
@@ -23,9 +30,6 @@ function save(user) {
 }
 
 function resolveAndSave(userName) {
-  if (typeof userName === 'undefined') {
-    userName = config.userSpider.seed;
-  }
   return new Promise((_resolve, reject) => {
     resolve(userName)
       .then(save)
@@ -39,4 +43,4 @@ function resolveAndSave(userName) {
   })
 }
 
-module.exports = { login, resolve, save, resolveAndSave };
+module.exports = { login, getSession, resolve, save, resolveAndSave };
