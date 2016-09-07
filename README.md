@@ -8,8 +8,8 @@
 
 ### Run test:
 
-1. run `npm install mocha`
-2. run `npm run test`
+1. Run `npm install mocha`
+2. Run `npm run test`
 
 ### note:
 
