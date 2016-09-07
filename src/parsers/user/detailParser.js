@@ -6,10 +6,8 @@ module.exports = function ($) {
   let locationDiv = profileCard.find('[data-name=location]');
   let employmentDiv = profileCard.find('[data-name=employment]');
   let educationDiv = profileCard.find('[data-name=education]');
-  user.location = {
-    location: locationDiv.find('.location').text(),
-    profession: locationDiv.find('.business').text(),
-  };
+  user.location = locationDiv.find('.location').text();
+  user.profession = locationDiv.find('.business').text();
   user.employment = {
     company: employmentDiv.find('.employment').text(),
     position: employmentDiv.find('.position').text(),

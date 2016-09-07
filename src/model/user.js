@@ -16,10 +16,8 @@ let UserSchema = new mongoose.Schema({
   gender: String,
   avatar: String,
   description: String,
-  location: {
-    location: String,
-    profession: String
-  },
+  location: String,
+  profession: String,
   employment: {
     company: String,
     position: String

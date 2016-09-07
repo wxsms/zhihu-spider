@@ -2,8 +2,8 @@
 
 const readline = require('readline');
 const superagent = require('superagent');
-const fs = require('fs');
-const captchaPath = 'captcha.png';
+const fs = require('fs');const path = require('path');
+const captchaPath = path.join(__dirname, '/../../captcha.png');
 const chalk = require('chalk');
 const constants = require('./../constants/zhihu');
 const jsdom = require('jsdom');
