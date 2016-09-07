@@ -14,6 +14,7 @@ let UserSchema = new mongoose.Schema({
   name: String,
   bio: String,
   gender: String,
+  avatar: String,
   description: String,
   location: {
     location: String,

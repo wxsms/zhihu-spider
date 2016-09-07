@@ -8,7 +8,7 @@ db.connect();
 userService
   .login()
   .then(() => {
-    return userService.resolve('kenspirit');
+    return userService.resolve('wxsm');
   })
   .then(userService.save)
   .then(() => {
