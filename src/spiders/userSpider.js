@@ -3,6 +3,7 @@
 const constants = require('./../constants/zhihu');
 const superagent = require('superagent');
 const parser = require('./../parsers/user/index');
+const logger = require('log4js').getLogger('userSpider');
 
 let session = {};
 
@@ -12,10 +13,10 @@ function setSession(_session) {
 
 function resolveUser(userName) {
   return new Promise((resolve, reject) => {
-    console.log(`----------`);
-    console.log(`Resolving user ${userName}...`);
+    let url = constants.url.userProfile(userName);
+    logger.debug(`Getting user from ${url}...`);
     superagent
-      .get(constants.url.userProfile(userName))
+      .get(url)
       .set(session.getHttpHeader())
       .end((err, res) => {
         if (err) {

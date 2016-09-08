@@ -1,9 +1,9 @@
 'use strict';
-
+const logger = require('log4js').getLogger('userParser');
 const parser = require('./../index');
 
 exports.fromHtml = function (html) {
-  console.log('Parsing user...');
+  logger.debug('Parsing user from HTML...');
   return parser.fromHtml(html, [
     require('./basicParser'),
     require('./avatarParser'),

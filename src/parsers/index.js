@@ -1,6 +1,7 @@
 'use strict';
 
 const jsdom = require('jsdom');
+const logger = require('log4js').getLogger('parser');
 
 function fromHtml(html, parsers) {
   return new Promise((resolve, reject) => {
@@ -15,7 +16,7 @@ function fromHtml(html, parsers) {
           try {
             Object.assign(item, parser($));
           } catch (e) {
-            console.error(e);
+            logger.error(e);
           }
         }
         window.close();
@@ -32,7 +33,7 @@ function fromJson(jsonText, parsers) {
     try {
       Object.assign(item, parser(json));
     } catch (e) {
-      console.error(e);
+      logger.error(e)
     }
   }
   return item;

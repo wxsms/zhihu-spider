@@ -4,6 +4,7 @@ const constants = require('./../constants/zhihu');
 const superagent = require('superagent-promise')(require('superagent'), Promise);
 const parser = require('./../parsers/follow/index');
 const _ = require('lodash');
+const logger = require('log4js').getLogger('followSpider');
 
 let session = {};
 
@@ -32,7 +33,7 @@ function resolveByPage(user, offset, apiObj) {
 }
 
 function resolveFollowers(user, offset) {
-  console.log('Resolving user followers...');
+  logger.debug('Resolving user followers...');
   if (typeof offset === 'undefined' || offset < 0) {
     offset = 0;
   }
@@ -42,7 +43,9 @@ function resolveFollowers(user, offset) {
         let _user = {
           followers: _.uniq(followersList)
         };
-        resolve(Object.assign(user, _user));
+        user = Object.assign(user, _user);
+        logger.debug(`Total resolved: ${user.followers.length}`);
+        resolve(user);
       })
       .catch((err) => {
         reject(err);
@@ -51,7 +54,7 @@ function resolveFollowers(user, offset) {
 }
 
 function resolveFollowees(user, offset) {
-  console.log('Resolving user followees...');
+  logger.debug('Resolving user followees...');
   if (typeof offset === 'undefined' || offset < 0) {
     offset = 0;
   }
@@ -61,7 +64,9 @@ function resolveFollowees(user, offset) {
         let _user = {
           followees: _.uniq(followersList)
         };
-        resolve(Object.assign(user, _user));
+        user = Object.assign(user, _user);
+        logger.debug(`Total resolved: ${user.followees.length}`);
+        resolve(user);
       })
       .catch((err) => {
         reject(err);

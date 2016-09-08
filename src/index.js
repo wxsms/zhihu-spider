@@ -1,7 +1,12 @@
 'use strict';
 
+const loggerUtil = require('./utils/loggerUtil');
+loggerUtil.init();
+
+const logger = require('log4js').getLogger('main');
 const db = require('./utils/dbUtil');
 const userService = require('./services/userService');
+
 
 db.connect();
 
@@ -16,7 +21,7 @@ userService
   })
   .catch((err) => {
     if (err) {
-      console.error(err);
+      logger.error(err);
     }
     process.exit(1);
   });

@@ -4,7 +4,7 @@ const readline = require('readline');
 const superagent = require('superagent');
 const fs = require('fs');const path = require('path');
 const captchaPath = path.join(__dirname, '/../../captcha.png');
-const chalk = require('chalk');
+const logger = require('log4js').getLogger();
 const constants = require('./../constants/zhihu');
 const jsdom = require('jsdom');
 let user = {};
@@ -122,7 +122,7 @@ function login(_user) {
       .then(getLoginCookie)
       .then(_getXsrfToken)
       .then(() => {
-        console.log(chalk.green.bold('Login success!'));
+        logger.info('Login success!');
         resolve();
       })
       .catch((err) => {

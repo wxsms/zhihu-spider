@@ -1,12 +1,11 @@
 'use strict';
 
-const chalk = require('chalk');
 const session = require('./../http/session');
 const userSpider = require('./../spiders/userSpider');
 const followSpider = require('./../spiders/followSpider');
 const config = require('./../config/config');
 const mongoose = require('mongoose');
-
+const logger = require('log4js').getLogger('userService');
 
 let User = mongoose.model('User');
 userSpider.setSession(session);
@@ -24,6 +23,7 @@ function resolve(userName) {
   if (typeof userName === 'undefined') {
     userName = config.user.name;
   }
+  logger.info(`User resolving task started: ${userName}`);
   return userSpider
     .resolveUser(userName)
     .then(followSpider.resolveFollowers)
@@ -31,7 +31,7 @@ function resolve(userName) {
 }
 
 function save(user) {
-  console.log('Saving user...');
+  logger.debug('Saving user...');
   return new User(user).save();
 }
 
@@ -40,7 +40,6 @@ function resolveAndSave(userName) {
     resolve(userName)
       .then(save)
       .then(() => {
-        console.log(chalk.green('Successfully resolved and saved user:', userName));
         _resolve();
       })
       .catch((err) => {
