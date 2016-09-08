@@ -35,16 +35,14 @@ function save(user) {
 }
 
 function resolveAndSave(userName) {
-  return new Promise((_resolve, reject) => {
-    resolve(userName)
-      .then(save)
-      .then(() => {
-        _resolve();
-      })
-      .catch((err) => {
-        reject(`Failed on resolving and saving user: ${userName}, error: ${err}`);
-      })
-  })
+  return resolve(userName)
+    .then(save)
+    .then(() => {
+      Promise.resolve();
+    })
+    .catch((err) => {
+      Promise.reject(err);
+    })
 }
 
 module.exports = { login, getSession, resolve, save, resolveAndSave };

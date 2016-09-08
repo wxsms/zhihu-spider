@@ -13,9 +13,11 @@ db.connect();
 userService
   .login()
   .then(() => {
-    return userService.resolve('wxsm');
+    return userService.resolveAndSave('linshengyu');
   })
-  .then(userService.save)
+  .then(() => {
+    return userService.resolveAndSave('undefined');
+  })
   .then(() => {
     process.exit(0);
   })

@@ -82,19 +82,17 @@ function resolveAllFollows(user) {
   promises.push((function () {
     return resolveFollowees(user);
   })(user));
-  return new Promise((resolve, reject) => {
-    Promise
-      .all(promises)
-      .then((values) => {
-        for (let i = 0; i < values.length; i++) {
-          Object.assign(user, values[i]);
-        }
-        resolve(user);
-      })
-      .catch((err) => {
-        reject(err);
-      });
-  });
+  return Promise
+    .all(promises)
+    .then((values) => {
+      for (let i = 0; i < values.length; i++) {
+        Object.assign(user, values[i]);
+      }
+      return Promise.resolve(user);
+    })
+    .catch((err) => {
+      return Promise.reject(err);
+    });
 }
 
 module.exports = { setSession, resolveFollowers, resolveFollowees, resolveAllFollows };
