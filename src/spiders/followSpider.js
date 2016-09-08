@@ -44,7 +44,7 @@ function resolveFollowers(user, offset) {
           followers: _.uniq(followersList)
         };
         Object.assign(user, _user);
-        logger.debug(`Total resolved: ${user.followers.length}`);
+        logger.debug(`Total followers resolved: ${user.followers.length}`);
         resolve(user);
       })
       .catch((err) => {
@@ -65,7 +65,7 @@ function resolveFollowees(user, offset) {
           followees: _.uniq(followersList)
         };
         Object.assign(user, _user);
-        logger.debug(`Total resolved: ${user.followees.length}`);
+        logger.debug(`Total followees resolved: ${user.followees.length}`);
         resolve(user);
       })
       .catch((err) => {
@@ -74,4 +74,27 @@ function resolveFollowees(user, offset) {
   });
 }
 
-module.exports = { setSession, resolveFollowers, resolveFollowees };
+function resolveAllFollows(user) {
+  let promises = [];
+  promises.push((function () {
+    return resolveFollowers(user);
+  })(user));
+  promises.push((function () {
+    return resolveFollowees(user);
+  })(user));
+  return new Promise((resolve, reject) => {
+    Promise
+      .all(promises)
+      .then((values) => {
+        for (let i = 0; i < values.length; i++) {
+          Object.assign(user, values[i]);
+        }
+        resolve(user);
+      })
+      .catch((err) => {
+        reject(err);
+      });
+  });
+}
+
+module.exports = { setSession, resolveFollowers, resolveFollowees, resolveAllFollows };

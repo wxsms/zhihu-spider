@@ -26,8 +26,7 @@ function resolve(userName) {
   logger.info(`User resolving task started: ${userName}`);
   return userSpider
     .resolveUser(userName)
-    .then(followSpider.resolveFollowers)
-    .then(followSpider.resolveFollowees);
+    .then(followSpider.resolveAllFollows)
 }
 
 function save(user) {
