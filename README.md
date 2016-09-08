@@ -1,5 +1,9 @@
 # zhihu-spider
 
+### Env:
+
+1. Node.js v6.5.0+
+
 ### Run:
 
 1. Read `src/config/config.example.js`
