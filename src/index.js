@@ -13,17 +13,17 @@ db.connect();
 userService
   .login()
   .then(() => {
-    return userService.resolveAndSave('linshengyu');
+    return userService.resolveAndSave('wxsm');
+  })
+  .catch((err) => {
+    logger.error(err);
   })
   .then(() => {
-    return userService.resolveAndSave('undefined');
+    return userService.resolveAndSave('linshengyu');
+  })
+  .catch((err) => {
+    logger.error(err);
   })
   .then(() => {
     process.exit(0);
-  })
-  .catch((err) => {
-    if (err) {
-      logger.error(err);
-    }
-    process.exit(1);
   });

@@ -3,8 +3,8 @@
 module.exports = function ($) {
   return new Promise((resolve, reject) => {
     let user = {};
-    let ProfileAvatar = $('.ProfileAvatarEditor');
-    user.avatar = ProfileAvatar.find('img').attr('src');
+    let ProfileCard = $('.ProfileCard');
+    user.avatar = ProfileCard.find('.Avatar').attr('src');
     resolve(user);
   });
 };
