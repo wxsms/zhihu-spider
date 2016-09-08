@@ -43,7 +43,7 @@ function resolveFollowers(user, offset) {
         let _user = {
           followers: _.uniq(followersList)
         };
-        user = Object.assign(user, _user);
+        Object.assign(user, _user);
         logger.debug(`Total resolved: ${user.followers.length}`);
         resolve(user);
       })
@@ -64,7 +64,7 @@ function resolveFollowees(user, offset) {
         let _user = {
           followees: _.uniq(followersList)
         };
-        user = Object.assign(user, _user);
+        Object.assign(user, _user);
         logger.debug(`Total resolved: ${user.followees.length}`);
         resolve(user);
       })

@@ -12,14 +12,19 @@ it('should parse basic info correctly', function (done) {
       done(err);
     } else {
       const $ = require('jquery')(window);
-      let item = parser($);
-      assert.deepEqual(item, {
-        bio: userVar.parsedUserProfile.bio,
-        description: userVar.parsedUserProfile.description,
-        gender: userVar.parsedUserProfile.gender,
-        name: userVar.parsedUserProfile.name
-      });
-      done();
+      parser($)
+        .then((item) => {
+          assert.deepEqual(item, {
+            bio: userVar.parsedUserProfile.bio,
+            description: userVar.parsedUserProfile.description,
+            gender: userVar.parsedUserProfile.gender,
+            name: userVar.parsedUserProfile.name
+          });
+          done();
+        })
+        .catch((e) => {
+          done(e);
+        })
     }
   });
 });

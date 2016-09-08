@@ -12,15 +12,24 @@ function fromHtml(html, parsers) {
       } else {
         const $ = require('jquery')(window);
         let item = {};
-        for (let parser of parsers) {
-          try {
-            Object.assign(item, parser($));
-          } catch (e) {
-            logger.error(e);
-          }
+        for (let i = 0; i < parsers.length; i++) {
+          parsers[i] = (function (i, $) {
+            return parsers[i]($);
+          })(i, $);
         }
-        window.close();
-        resolve(item);
+        Promise
+          .all(parsers)
+          .then((values) => {
+            for (let i = 0; i < values.length; i++) {
+              Object.assign(item, values[i]);
+            }
+            window.close();
+            resolve(item);
+          })
+          .catch((e) => {
+            window.close();
+            reject(e);
+          });
       }
     });
   })

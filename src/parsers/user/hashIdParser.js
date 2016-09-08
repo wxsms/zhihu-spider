@@ -1,8 +1,10 @@
 'use strict';
 
 module.exports = function ($) {
-  let user = {};
-  let rawText = $('script[data-name=current_people]').text();
-  user.hashId = JSON.parse(rawText)[3];
-  return user;
+  return new Promise((resolve, reject) => {
+    let user = {};
+    let rawText = $('script[data-name=current_people]').text();
+    user.hashId = JSON.parse(rawText)[3];
+    resolve(user);
+  });
 };

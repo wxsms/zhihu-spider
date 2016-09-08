@@ -13,11 +13,16 @@ it('should parse activities info correctly', function (done) {
       done(err);
     } else {
       const $ = require('jquery')(window);
-      let item = parser($);
-      assert.deepEqual(item, {
-        activities: userVar.parsedUserProfile.activities
-      });
-      done();
+      parser($)
+        .then((item) => {
+          assert.deepEqual(item, {
+            activities: userVar.parsedUserProfile.activities
+          });
+          done();
+        })
+        .catch((e) => {
+          done(e);
+        })
     }
   });
 });

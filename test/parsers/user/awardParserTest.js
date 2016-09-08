@@ -12,11 +12,16 @@ it('should parse award info correctly', function (done) {
       done(err);
     } else {
       const $ = require('jquery')(window);
-      let item = parser($);
-      assert.deepEqual(item, {
-        award: userVar.parsedUserProfile.award
-      });
-      done();
+      parser($)
+        .then((item) => {
+          assert.deepEqual(item, {
+            award: userVar.parsedUserProfile.award
+          });
+          done();
+        })
+        .catch((e) => {
+          done(e);
+        })
     }
   });
 });

@@ -12,9 +12,14 @@ it('should parse hashId correctly', function (done) {
       done(err);
     } else {
       const $ = require('jquery')(window);
-      let item = parser($);
-      assert.equal(item.hashId, userVar.parsedUserProfile.hashId);
-      done();
+      parser($)
+        .then((item) => {
+          assert.equal(item.hashId, userVar.parsedUserProfile.hashId);
+          done();
+        })
+        .catch((e) => {
+          done(e);
+        })
     }
   });
 });

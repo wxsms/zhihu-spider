@@ -12,9 +12,14 @@ it('should parse avatar url correctly', function (done) {
       done(err);
     } else {
       const $ = require('jquery')(window);
-      let item = parser($);
-      assert.equal(item.avatar, userVar.parsedUserProfile.avatar);
-      done();
+      parser($)
+        .then((item) => {
+          assert.equal(item.avatar, userVar.parsedUserProfile.avatar);
+          done();
+        })
+        .catch((e) => {
+          done(e);
+        })
     }
   });
 });
