@@ -31,11 +31,13 @@ function next() {
 const main = async(function () {
   let index = 1;
   await(userService.login());
-  while (1) {
+  /*while (1) {
     logger.info(`---------- Process working on user ${index} ----------`);
     await(next());
     index++;
-  }
+  }*/
+  await(next());
+  process.exit();
 });
 
 main();

@@ -15,7 +15,9 @@ const parsedProfile = {
   "award": { "agree": "240", "thanks": "40" },
   "activities": { "asks": "2", "answers": "19", "posts": "0", "collections": "1", "logs": "9" },
   "education": { "education": "暨南大学", "major": "软件工程" },
-  "employment": { "company": "OOCL", "position": "ATE" }
+  "employment": { "company": "OOCL", "position": "ATE" },
+  "follower": '23',
+  "followee": '2'
 };
 
 const parseFollows = {

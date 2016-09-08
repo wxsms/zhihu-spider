@@ -26,6 +26,8 @@ let UserSchema = new mongoose.Schema({
     education: String,
     major: String
   },
+  followee: Number,
+  follower: Number,
   followees: [String],
   followers: [String],
   activities: {
