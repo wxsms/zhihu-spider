@@ -1,7 +1,11 @@
 'use strict';
 
-const logger = require('log4js').getLogger();
-logger.setLevel('ERROR');
+const log4js = require('log4js');
+log4js.configure({
+  appenders: [{ type: 'console' }],
+  levels: { '[all]': 'ERROR' }
+});
+
 const path = require('path');
 const fs = require('fs');
 const assert = require('assert');
