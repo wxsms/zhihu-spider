@@ -19,14 +19,21 @@ function getSession() {
   return session;
 }
 
-function resolve(userName) {
-  if (typeof userName === 'undefined') {
-    userName = config.user.name;
+function resolve(userId) {
+  if (typeof userId === 'undefined') {
+    userId = config.user.name;
   }
-  logger.info(`User resolving task started: ${userName}`);
-  return userSpider
-    .resolveUser(userName)
-    .then(followSpider.resolveAllFollows)
+  logger.info(`User resolving task started: ${userId}`);
+  return User
+    .findOne({ id: userId })
+    .then((doc) => {
+      if (doc) {
+        return Promise.reject(`User ${userId} already existed!`);
+      }
+      return Promise.resolve(userId);
+    })
+    .then(userSpider.resolveUser)
+    .then(followSpider.resolveAllFollows);
 }
 
 function save(user) {
@@ -34,8 +41,8 @@ function save(user) {
   return new User(user).save();
 }
 
-function resolveAndSave(userName) {
-  return resolve(userName).then(save)
+function resolveAndSave(userId) {
+  return resolve(userId).then(save)
 }
 
 module.exports = { login, getSession, resolve, save, resolveAndSave };
