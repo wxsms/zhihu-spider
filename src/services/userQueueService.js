@@ -3,10 +3,12 @@
 const config = require('./../config/config');
 const mongoose = require('mongoose');
 const logger = require('log4js').getLogger('userQueueService');
+const _ = require('lodash');
 
 let UserQueue = mongoose.model('UserQueue');
 
 function unshiftAll(ids) {
+  ids = _.uniq(ids);
   logger.debug(`Unshift user queue with ${ids.length} ids...`);
   let promises = [];
   for (let i = 0; i < ids.length; i++) {

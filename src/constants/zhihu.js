@@ -9,6 +9,7 @@ zhihu.url = {
   userProfile: (userName) => `https://www.zhihu.com/people/${userName}`,
   userFollowers: (userName) => `https://www.zhihu.com/people/${userName}/followers`,
   userFollowees: (userName) => `https://www.zhihu.com/people/${userName}/followees`,
+  userTopics: (userName) => `https://www.zhihu.com/people/${userName}/topics`
 };
 
 zhihu.api = {
@@ -47,6 +48,25 @@ zhihu.api = {
         'X-Requested-With': 'XMLHttpRequest',
         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
         Referer: zhihu.url.userFollowees(userName)
+      }
+    }
+  },
+  userTopics: {
+    url: () => 'https://www.zhihu.com/people/wxsm/topics',
+    pageSize: () => 20,
+    form: (offset) => {
+      offset = typeof offset === 'undefined' ? 0 : offset;
+      return {
+        start: 0,
+        offset: offset
+      }
+    },
+    header: (userName, token) => {
+      return {
+        'X-Xsrftoken': token,
+        'X-Requested-With': 'XMLHttpRequest',
+        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        Referer: zhihu.url.userTopics(userName)
       }
     }
   }

@@ -24,12 +24,18 @@ const parseFollows = {
   "list": ["jin-yang-ming", "bevis-4", "fu-xiang-64", "walkerinchaos", "deepout", "tao-tao-990", "bian-jia-lun", "yusenforthedream", "luaer", "he-jia-22-35", "dong-chong-xia-cao-35", "tan-lin-kai-56", "amberwei-2", "piao-xiang-2", "song-chun-liang-67", "movinghorse", "alice-wei-joo", "liyunzhi1993", "supernovayo", "hhost"]
 };
 
+const parseTopics = { "list": ["Node.js", "女朋友", "海贼王（ONE PIECE）", "发烧", "显示器", "必应（Bing）", "电影", "三体（系列小说）", "知识产权", "上古卷轴（The Elder Scrolls）", "Git", "教育", "湿疹", "澳门", "互联网", "珠海", "火影忍者", "游戏王", "家装", "AMD"] }
+
 function getUserProfile() {
   return fs.readFileSync(path.join(__dirname, '/raw/userProfile.txt')).toString('utf8');
 }
 
 function getUserFollows() {
   return require('./raw/userFollowers.json');
+}
+
+function getUserTopics() {
+  return require('./raw/userTopics.json');
 }
 
 function getParsedUserProfile() {
@@ -39,5 +45,14 @@ function getParsedUserProfile() {
 function getParsedUserFollows() {
   return parseFollows;
 }
-
-module.exports = { getUserProfile, getParsedUserProfile, getUserFollows, getParsedUserFollows };
+function getParsedUserTopics() {
+  return parseTopics;
+}
+module.exports = {
+  getUserProfile,
+  getParsedUserProfile,
+  getUserFollows,
+  getParsedUserFollows,
+  getUserTopics,
+  getParsedUserTopics
+};

@@ -28,8 +28,9 @@ let UserSchema = new mongoose.Schema({
   },
   followee: Number,
   follower: Number,
-  followees: [String],
-  followers: [String],
+  topics: [String],
+  followees_sample: [String],
+  followers_sample: [String],
   activities: {
     asks: Number,
     answers: Number,

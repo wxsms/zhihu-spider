@@ -15,6 +15,10 @@ function setSession(_session) {
 function resolveByPage(user, offset, apiObj) {
   let header = Object.assign(session.getHttpHeader(), apiObj.header(user.id, session.getXsrfToken()));
   let form = apiObj.form(user.hashId, offset);
+  //No more than 100 (too slow)
+  if (offset + apiObj.pageSize() > 100) {
+    return Promise.resolve([]);
+  }
   return superagent
     .post(apiObj.url())
     .set(header)
@@ -41,10 +45,10 @@ function resolveFollowers(user, offset) {
     resolveByPage(user, offset, constants.api.userFollowers)
       .then((followersList) => {
         let _user = {
-          followers: _.uniq(followersList)
+          followers_sample: _.uniq(followersList)
         };
         Object.assign(user, _user);
-        logger.debug(`Total followers resolved: ${user.followers.length}`);
+        logger.debug(`Total followers resolved: ${user.followers_sample.length}`);
         resolve(user);
       })
       .catch((err) => {
@@ -62,10 +66,10 @@ function resolveFollowees(user, offset) {
     resolveByPage(user, offset, constants.api.userFollowees)
       .then((followersList) => {
         let _user = {
-          followees: _.uniq(followersList)
+          followees_sample: _.uniq(followersList)
         };
         Object.assign(user, _user);
-        logger.debug(`Total followees resolved: ${user.followees.length}`);
+        logger.debug(`Total followees resolved: ${user.followees_sample.length}`);
         resolve(user);
       })
       .catch((err) => {

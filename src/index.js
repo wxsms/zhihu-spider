@@ -17,7 +17,14 @@ function next() {
     .shift()
     .then(userService.resolveAndSave)
     .then((user) => {
-      return userQueueService.unshiftAll([].concat(user.followers, user.followees));
+      let ids = [];
+      if (user.followers_sample) {
+        ids = ids.concat(user.followers_sample);
+      }
+      if (user.followees_sample) {
+        ids = ids.concat(user.followees_sample);
+      }
+      return userQueueService.unshiftAll(ids);
     })
     .then(() => {
       Promise.resolve();
@@ -31,13 +38,13 @@ function next() {
 const main = async(function () {
   let index = 1;
   await(userService.login());
-  /*while (1) {
-    logger.info(`---------- Process working on user ${index} ----------`);
-    await(next());
-    index++;
-  }*/
-  await(next());
-  process.exit();
+  while (1) {
+   logger.info(`---------- Process working on user ${index} ----------`);
+   await(next());
+   index++;
+   }
+  /*await(next());
+   process.exit();*/
 });
 
 main();

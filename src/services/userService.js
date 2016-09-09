@@ -3,6 +3,7 @@
 const session = require('./../http/session');
 const userSpider = require('./../spiders/userSpider');
 const followSpider = require('./../spiders/followSpider');
+const topicSpider = require('./../spiders/topicSpider');
 const config = require('./../config/config');
 const mongoose = require('mongoose');
 const logger = require('log4js').getLogger('userService');
@@ -10,6 +11,7 @@ const logger = require('log4js').getLogger('userService');
 let User = mongoose.model('User');
 userSpider.setSession(session);
 followSpider.setSession(session);
+topicSpider.setSession(session);
 
 function login() {
   return session.login(config.user)
@@ -33,7 +35,8 @@ function resolve(userId) {
       return Promise.resolve(userId);
     })
     .then(userSpider.resolveUser)
-    .then(followSpider.resolveAllFollows);
+    .then(followSpider.resolveAllFollows)
+    .then(topicSpider.resolveTopics);
 }
 
 function save(user) {

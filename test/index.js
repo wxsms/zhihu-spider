@@ -19,7 +19,9 @@ global.__testVar = {
       userProfile: userProfile.getUserProfile(),
       parsedUserProfile: userProfile.getParsedUserProfile(),
       userFollows: userProfile.getUserFollows(),
-      parsedUserFollows: userProfile.getParsedUserFollows()
+      parsedUserFollows: userProfile.getParsedUserFollows(),
+      userTopics: userProfile.getUserTopics(),
+      parsedUserTopics: userProfile.getParsedUserTopics()
     }
   }
 };
@@ -34,6 +36,12 @@ describe('Parsers', function () {
   describe('follows parser', function () {
     fs.readdirSync(path.join(__dirname, '/parsers/follow/')).forEach(function (file) {
       require("./parsers/follow/" + file);
+    });
+  });
+
+  describe('topics parser', function () {
+    fs.readdirSync(path.join(__dirname, '/parsers/topic/')).forEach(function (file) {
+      require("./parsers/topic/" + file);
     });
   });
 });
