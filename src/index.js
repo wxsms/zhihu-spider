@@ -12,43 +12,30 @@ const userQueueService = require('./services/userQueueService');
 
 db.connect();
 
-const thread = async(function (id) {
-  while (1) {
-    await(userQueueService
-      .shift()
-      .then((userId) => {
-        logger.info(`Thread ${id} working on user ${userId}`);
-        return Promise.resolve(userId)
-      })
-      .then(userService.resolveAndSave)
-      .then((user) => {
-        let ids = [];
-        if (user.followers_sample) {
-          ids = ids.concat(user.followers_sample);
-        }
-        if (user.followees_sample) {
-          ids = ids.concat(user.followees_sample);
-        }
-        return userQueueService.unshiftAll(ids);
-      })
-      .then(() => {
-        Promise.resolve();
-      })
-      .catch((err) => {
-        logger.error(err);
-        Promise.reject(err);
-      }));
+let next = async(function (threadId) {
+  try {
+    let userId = await(userQueueService.shift());
+    logger.info(`Thread ${threadId} working on user ${userId}`);
+    let user = await(userService.resolveAndSave(userId));
+    await(userQueueService.unshiftAll([].concat(user.followers_sample, user.followees_sample)));
+  } catch (err) {
+    if (err.name === 'MongoError') {
+      err = err.message;
+    }
+    logger.error(err);
   }
 });
 
-const main = async(function () {
+let thread = async(function (id) {
+  while (1) {
+    await(next(id));
+  }
+});
+
+let main = async(function () {
   await(userService.login());
-  for (let i = 0; i < 5; i++) {
-    (function (i) {
-      setTimeout(() => {
-        thread(i)
-      }, 1);
-    })(i)
+  for (let i = 0; i < 2; i++) {
+    thread(i)
   }
 });
 
