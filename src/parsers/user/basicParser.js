@@ -11,7 +11,7 @@ module.exports = function ($) {
     if (genderDiv.html() && genderDiv.html().indexOf) {
       user.gender = genderDiv.html().indexOf('female') >= 0 ? 'female' : 'male';
     }
-    user.description = $('#profile-header-description-input').html();
+    user.description = $('#profile-header-description-input').html() || '';
     //console.log('basic done');
     resolve(user);
   });
