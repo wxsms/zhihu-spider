@@ -14,9 +14,6 @@ function init() {
     }
   }
   log4js.configure('./../src/config/log4js.json');
-
-  let logger = log4js.getLogger();
-  logger.setLevel('DEBUG');
 }
 
 

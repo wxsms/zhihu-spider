@@ -25,7 +25,7 @@ function resolve(userId) {
   if (typeof userId === 'undefined') {
     userId = config.user.name;
   }
-  logger.info(`User resolving task started: ${userId}`);
+  //logger.info(`User resolving task started: ${userId}`);
   return User
     .findOne({ id: userId })
     .then((doc) => {
