@@ -34,7 +34,7 @@ let thread = async(function (id) {
 
 let main = async(function () {
   await(userService.login());
-  for (let i = 0; i < 2; i++) {
+  for (let i = 0; i < 5; i++) {
     thread(i)
   }
 });
