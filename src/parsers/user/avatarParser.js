@@ -5,6 +5,7 @@ module.exports = function ($) {
     let user = {};
     let ProfileCard = $('.ProfileCard');
     user.avatar = ProfileCard.find('.Avatar').attr('src');
+    //console.log('avatar done');
     resolve(user);
   });
 };

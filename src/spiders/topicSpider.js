@@ -17,7 +17,7 @@ function resolveByPage(user, offset) {
   let header = Object.assign(session.getHttpHeader(), apiObj.header(user.id, session.getXsrfToken()));
   let form = apiObj.form(offset);
   return superagent
-    .post(apiObj.url())
+    .post(apiObj.url(user.id))
     .set(header)
     .send(form)
     .end()

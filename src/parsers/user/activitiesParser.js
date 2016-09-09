@@ -12,6 +12,7 @@ module.exports = function ($) {
       collections: profileNavbar.find('a[href*=collections]').find('.num').text(),
       logs: profileNavbar.find('a[href*=logs]').find('.num').text()
     };
+    //console.log('activities done');
     resolve(user);
   });
 };

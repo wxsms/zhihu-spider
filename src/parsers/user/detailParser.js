@@ -17,6 +17,7 @@ module.exports = function ($) {
       education: educationDiv.find('.education').text(),
       major: educationDiv.find('.education-extra').text(),
     };
+    //console.log('detail done');
     resolve(user);
   });
 };

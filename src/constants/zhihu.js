@@ -52,7 +52,7 @@ zhihu.api = {
     }
   },
   userTopics: {
-    url: () => 'https://www.zhihu.com/people/wxsm/topics',
+    url: (userName) => `https://www.zhihu.com/people/${userName}/topics`,
     pageSize: () => 20,
     form: (offset) => {
       offset = typeof offset === 'undefined' ? 0 : offset;

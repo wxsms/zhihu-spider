@@ -8,6 +8,7 @@ module.exports = function ($) {
       agree: profileCard.find('.zm-profile-header-user-agree strong').text(),
       thanks: profileCard.find('.zm-profile-header-user-thanks strong').text()
     };
+    //console.log('award done');
     resolve(user);
   });
 };

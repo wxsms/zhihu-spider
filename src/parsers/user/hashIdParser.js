@@ -5,6 +5,7 @@ module.exports = function ($) {
     let user = {};
     let rawText = $('script[data-name=current_people]').text();
     user.hashId = JSON.parse(rawText)[3];
+    //console.log('hash done');
     resolve(user);
   });
 };

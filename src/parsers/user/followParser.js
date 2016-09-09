@@ -7,6 +7,7 @@ module.exports = function ($) {
       followee: followDiv.find('a[href*=followees]').find('strong').text(),
       follower: followDiv.find('a[href*=followers]').find('strong').text()
     };
+    //console.log('follow done');
     resolve(user);
   });
 };
