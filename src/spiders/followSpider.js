@@ -30,8 +30,11 @@ function resolveByPage(user, offset, apiObj) {
         return [];
       }
       return resolveByPage(user, offset + apiObj.pageSize(), apiObj)
-        .then(function (nextList) {
+        .then((nextList) => {
           return [].concat(data.list, nextList);
+        })
+        .catch((e) => {
+          return [];
         });
     })
 }

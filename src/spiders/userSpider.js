@@ -27,6 +27,9 @@ function resolveUser(userName) {
             .then((user) => {
               user.id = userName;
               resolve(user);
+            })
+            .catch((e) => {
+              reject(e);
             });
         }
       });

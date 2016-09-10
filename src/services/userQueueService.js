@@ -21,7 +21,6 @@ function unshiftAll(ids) {
           if (err.message.indexOf('duplicate key') < 0) {
             logger.warn(err.message);
           }
-          Promise.resolve();
         });
     })(ids[i]));
   }
