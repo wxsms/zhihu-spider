@@ -1,6 +1,6 @@
 # zhihu-spider
 
-Note: Since Zhihu website updated, this spider is currently not able to work any more! Please wait for update!
+> **Note: Since Zhihu website updated, this spider is currently not able to work any more! Please wait for update!**
 
 ### Env:
 
